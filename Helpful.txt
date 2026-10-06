@@ -1,0 +1,18 @@
+
+// Commands to launch locally hosted coding environment
+
+Scripts\activate // Create and enter the workspace
+jupyter lab // Locally hosted web based UI
+deactivate // Exit and close the workspace
+
+
+// Useful tools/libraries for python
+Python built ins 
+Python standard library
+
+// Python package index
+https://pypi.org/
+
+DBcm -- database thingibob
+pygame -- for 2d game dev
+attrs -- for building classes different from data classes
