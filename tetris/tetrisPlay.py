@@ -1,6 +1,7 @@
 import time
 import random
 import queue
+import sys
 from pynput import keyboard
 from IPython.display import clear_output
 
@@ -27,6 +28,10 @@ def clear_grid():
     grid = [[_BLANK for i in range(_ROW) ] for i in range (_COLUMNS)]
     return grid
 
+def clear_terminal():
+    sys.stdout.write("\033[2J\033[H")
+    sys.stdout.flush()
+
 def drop_block(grid, column_number):
     try:
         n = grid[column_number].index(_BLOCK)
@@ -50,7 +55,7 @@ def show_dropping_block(grid, column_number):
     global key_pressed
     global gameOver
     
-    if(check_bounds(grid) and not gameOver): # End game if columns are full or q is pressed
+    if(check_bounds(grid) and not gameOver):
         
         while grid[column_number][0] == _BLOCK:
             column_number += 1
@@ -74,14 +79,22 @@ def show_dropping_block(grid, column_number):
             key_pressed = ""
             
             grid[column_number][row] = _BLOCK
+            clear_terminal()
+            
             display_grid(grid)
+            
             time.sleep(_INTERVAL)
+            
             clear_output(wait = True)
+            
             grid[column_number][row] = _BLANK
+            
             if row + 1 < _ROW:
                 if grid[column_number][row + 1] == _BLOCK: break
+                    
             display_grid(grid)
             clear_output(wait = True)
+            
         drop_block(grid, column_number)
         return column_number
 
