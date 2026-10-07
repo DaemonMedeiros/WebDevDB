@@ -107,8 +107,11 @@ def show_dropping_block(grid, column_number):
         return column_number
 
 def drop_group(grid, amount):
+
+    global columns
+    
     for i in range(amount):
-        show_dropping_block(grid, random.randint(0, _COLUMNS-1))
+        show_dropping_block(grid, random.randint(0, columns-1))
         #randomise
     return grid
 
