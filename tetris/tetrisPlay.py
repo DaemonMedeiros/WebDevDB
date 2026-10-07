@@ -5,6 +5,9 @@ import sys
 from pynput import keyboard
 from IPython.display import clear_output
 
+rows = 0
+columns = 0
+
 _ROW = 10
 _COLUMNS = 5
 _INTERVAL = 0.3
@@ -24,8 +27,8 @@ def process_key_press(key):
 
 listener = keyboard.Listener(on_press = process_key_press)
 
-def clear_grid():
-    grid = [[_BLANK for i in range(_ROW) ] for i in range (_COLUMNS)]
+def clear_grid(row, col):
+    grid = [[_BLANK for i in range(row) ] for i in range (col)]
     return grid
 
 def clear_terminal():
@@ -42,9 +45,12 @@ def drop_block(grid, column_number):
     return grid
 
 def display_grid(grid):
-    col = tuple(range(0,_COLUMNS))
-    rows = tuple(range(0,_ROW))
-    for r in rows:
+    global rows
+    global columns
+    
+    col = tuple(range(0,columns))
+    row = tuple(range(0,rows))
+    for r in row:
         print("|", sep="", end = "")
         for c in col:
             print(grid[c][r], "|", sep="", end = "")
@@ -52,6 +58,8 @@ def display_grid(grid):
 
 def show_dropping_block(grid, column_number):
 
+    global rows
+    global columns
     global key_pressed
     global gameOver
     
@@ -60,7 +68,7 @@ def show_dropping_block(grid, column_number):
         while grid[column_number][0] == _BLOCK:
             column_number += 1
             
-            if column_number >= _COLUMNS:
+            if column_number >= columns:
                 column_number = 0
 
         if key_pressed == "Key.Q" or key_pressed == "Key.q":
@@ -72,7 +80,7 @@ def show_dropping_block(grid, column_number):
                 if grid[column_number - 1][row] != _BLOCK:
                     column_number -= 1
                     
-            if key_pressed == "Key.right" and column_number < _COLUMNS - 1:
+            if key_pressed == "Key.right" and column_number < columns - 1:
                 if grid[column_number + 1][row] != _BLOCK:
                     column_number += 1
 
@@ -89,7 +97,7 @@ def show_dropping_block(grid, column_number):
             
             grid[column_number][row] = _BLANK
             
-            if row + 1 < _ROW:
+            if row + 1 < rows:
                 if grid[column_number][row + 1] == _BLOCK: break
                     
             display_grid(grid)
@@ -105,16 +113,29 @@ def drop_group(grid, amount):
     return grid
 
 def check_bounds(grid):
-    for i in range(_COLUMNS):
+    global columns
+    for i in range(columns):
         if grid[i][0] == _BLOCK:
             print("Game Over")
             return False
     return True
+
+def getPlayerInput():
+    global rows
+    global columns
+    
+    rows = int(input("Enter number of rows: "))
+    columns = int(input("Enter number of columns: "))
+    
     
 def run():
+    global rows
+    global columns
     global gameOver
-    grid = clear_grid()
-    col = random.randint(0, 4)
+
+    getPlayerInput()
+    grid = clear_grid(rows, columns)
+    col = random.randint(0, columns)
     listener.start()
     while check_bounds(grid) and not gameOver:
         col = show_dropping_block(grid,col)
