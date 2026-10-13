@@ -74,7 +74,7 @@ def show_dropping_block(grid, column_number):
         if key_pressed == "Key.Q" or key_pressed == "Key.q":
             gameOver = True
                 
-        for row in range(_ROW):
+        for row in range(rows):
             
             if key_pressed == "Key.left" and column_number > 0:
                 if grid[column_number - 1][row] != _BLOCK:
@@ -124,12 +124,21 @@ def check_bounds(grid):
     return True
 
 def getPlayerInput():
+    
     global rows
     global columns
-    
-    rows = int(input("Enter number of rows: "))
-    columns = int(input("Enter number of columns: "))
-    
+
+    while rows < 1 or rows > 15:
+        rows = int(input("Enter number of rows between 1 and 15: "))
+        if rows < 1 or rows > 15:
+            print("Error: Number of rows outside of range. Try again!")
+            rows = 0
+
+    while columns < 1 or columns > 15:
+        columns = int(input("Enter number of columns between 1 and 15: "))
+        if columns < 1 or columns > 15:
+            print("Error: Number of columns outside of range. Try again!")
+            columns = 0
     
 def run():
     global rows
@@ -138,9 +147,9 @@ def run():
 
     getPlayerInput()
     grid = clear_grid(rows, columns)
-    col = random.randint(0, columns)
+    col = random.randint(0, columns - 1)
     listener.start()
     while check_bounds(grid) and not gameOver:
         col = show_dropping_block(grid,col)
-        col = random.randint(0, 4)
+        col = random.randint(0, columns - 1)
     listener.stop()
