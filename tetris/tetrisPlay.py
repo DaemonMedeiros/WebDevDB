@@ -115,7 +115,7 @@ def drop_group(grid, amount):
         #randomise
     return grid
 
-def check_bounds(grid):
+def check_bounds(grid): # Return true if not already block in the top row
     global columns    
     for i in range(columns):
         if grid[i][0] == _BLOCK:
@@ -123,20 +123,33 @@ def check_bounds(grid):
             return False    
     return True
 
-def check_bottom_row(grid):
-    
-    global rows
+def is_row_full(grid, row): # Return true if row is full of blocks
     global columns
-
+    if row < 1 or row > 15:
+        print("Row number out of bounds");
+        return False
     for i in range(columns):
-        if grid[i][rows-1] == _BLANK:
-            return
+        if grid[i][row] == _BLANK:
+            return False
+    return True
 
-    for i in range(columns):
-        grid[i][rows-1] = _BLANK
-            
-
+def clear_row(grid, row): # Clear specific row
+    global columns
     
+    if row < 1 or row > 15:
+        print("Row number out of bounds");
+        return
+        
+    for i in range(columns):
+        if grid[i][row] != _BLANK:
+            grid[i][row] = _BLANK
+    
+def handle_full_rows(grid):
+    global rows
+
+    for i in range(rows):
+        if is_row_full(grid, i) == True:
+            clear_row(grid, i)
 
 def getPlayerInput():
     
@@ -167,5 +180,5 @@ def run():
     while check_bounds(grid) and not gameOver:
         col = show_dropping_block(grid,col)
         col = random.randint(0, columns - 1)
-        check_bottom_row(grid)
+        handle_full_rows(grid)
     listener.stop()
