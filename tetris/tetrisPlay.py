@@ -144,12 +144,22 @@ def clear_row(grid, row): # Clear specific row
         if grid[i][row] != _BLANK:
             grid[i][row] = _BLANK
     
+def shift_rows_down(grid, row):
+    global rows
+    global columns
+
+    for row in range(row - 1, -1, -1):
+        for col in range(columns):
+            grid[col][row + 1] = grid[col][row]
+            grid[col][row] = _BLANK
+
 def handle_full_rows(grid):
     global rows
 
     for i in range(rows):
         if is_row_full(grid, i) == True:
             clear_row(grid, i)
+            shift_rows_down(grid, i)
 
 def getPlayerInput():
     
