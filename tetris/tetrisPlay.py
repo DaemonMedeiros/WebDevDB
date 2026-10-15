@@ -2,11 +2,13 @@ import time
 import random
 import queue
 import sys
+from datetime import timedelta
 from pynput import keyboard
 from IPython.display import clear_output
 
 rows = 0
 columns = 0
+seconds = 0
 
 _ROW = 10
 _COLUMNS = 5
@@ -179,16 +181,23 @@ def getPlayerInput():
             columns = 0
     
 def run():
-    global rows
-    global columns
-    global gameOver
+    global rows, columns, seconds, gameOver
 
     getPlayerInput()
     grid = clear_grid(rows, columns)
     col = random.randint(0, columns - 1)
+
     listener.start()
+    start_time = time.time()
+
     while check_bounds(grid) and not gameOver:
+
+        current_time = time.time()
+        seconds = int(current_time - start_time)
+
         col = show_dropping_block(grid,col)
         col = random.randint(0, columns - 1)
         handle_full_rows(grid)
+
     listener.stop()
+    print("Elapsed time in seconds: ", seconds)
