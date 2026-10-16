@@ -9,6 +9,7 @@ from IPython.display import clear_output
 rows = 0
 columns = 0
 seconds = 0
+rowsFilled = 0
 
 _ROW = 10
 _COLUMNS = 5
@@ -128,7 +129,6 @@ def check_bounds(grid): # Return true if not already block in the top row
 def is_row_full(grid, row): # Return true if row is full of blocks
     global columns
     if row < 1 or row > 15:
-        print("Row number out of bounds");
         return False
     for i in range(columns):
         if grid[i][row] == _BLANK:
@@ -156,14 +156,15 @@ def shift_rows_down(grid, row):
             grid[col][row] = _BLANK
 
 def handle_full_rows(grid):
-    global rows
+    global rows, rowsFilled
 
     for i in range(rows):
         if is_row_full(grid, i) == True:
             clear_row(grid, i)
             shift_rows_down(grid, i)
+            rowsFilled = rowsFilled + 1
 
-def getPlayerInput():
+def getGameSize():
     
     global rows
     global columns
@@ -179,11 +180,23 @@ def getPlayerInput():
         if columns < 1 or columns > 15:
             print("Error: Number of columns outside of range. Try again!")
             columns = 0
+
+def getPlayerName():
+    name = ""
+    name = input("Enter player name: ")
+    return name
+
+def getPlayerScore(filled, timeElapsed):
+    global columns
+    score = 0
+    score = filled * columns
+    score = score + int(timeElapsed / 10)
+    return score
     
 def run():
     global rows, columns, seconds, gameOver
 
-    getPlayerInput()
+    getGameSize()
     grid = clear_grid(rows, columns)
     col = random.randint(0, columns - 1)
 
@@ -200,4 +213,9 @@ def run():
         handle_full_rows(grid)
 
     listener.stop()
+
+    name = getPlayerName()
     print("Elapsed time in seconds: ", seconds)
+    print("Player: ", name, " | Score: ", getPlayerScore(rowsFilled, seconds))
+
+run()
