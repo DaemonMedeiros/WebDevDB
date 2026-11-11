@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block mainbody %}
+
+<table border="1">
+
+    {% for row in range(rowcount) %}
+        <tr>
+            {% for col in range(colcount) %}
+                <td>
+                    {% include "snippet.html" %}
+                </td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+
+
+<div
+    hx-post="/counting"
+    hx-trigger="every 1s"
+    hx-target="this"
+    hx-swap="innerHTML">
+    Time is ticking...
+</div>
+
+
+<div
+    hx-post="/keypress"
+    hx-trigger="keyup[key=='ArrowLeft' || key=='ArrowRight'] from:body"
+    hx-vals="js:{ keyPressed: event.key }"
+    hx-target="#key-display" >
+
+    <div id="key-display">
+        Press either left or right arrow...
+    </div>
+
+</div>
+
+
+{% endblock %}
