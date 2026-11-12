@@ -9,12 +9,10 @@ app.secret_key = "theMostSecretOfKeys"
 @app.get("/showgrid")
 def display_the_grid():
     session["count"] = 0
-    session["ROWS"] = 8
-    session["COLS"] = 6
     return render_template(
         "grid.html",
-        rowcount=session["ROWS"],
-        colcount=session["COLS"],
+        rowcount=8,
+        colcount=6,
         colour="white",
     )
 
@@ -29,10 +27,23 @@ def process_the_click(row, col, colour):
         colour=set_colour,
     )
 
-@app.post("/spawn_block/<rowcount>/<colcount>")
+@app.get("/spawn_block/<int:rowcount>/<int:colcount>")
 def spawn_random_block(rowcount, colcount):
-    random_row = random.randint(0, rowcount - 1)
+    # random_row = random.randint(0, rowcount - 1)
+    random_row = 0
     random_col = random.randint(0, colcount - 1)
+
+    html = render_template(
+        "snippet.html",
+        row=random_row,
+        col=random_col,
+        colour="black",
+    )
+
+    return html, {
+        "HX-Retarget": f"[id='{random_col}, {random_row}']",
+        "HX-Reswap": "outerHTML",
+    }
 
 
 @app.post("/counting")
