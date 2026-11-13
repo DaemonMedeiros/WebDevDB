@@ -37,9 +37,10 @@
 
 </div>
 
-<div
-    hx-get="/spawn_block/{{rowcount}}/{{colcount}}"
-    hx-trigger="every 2s">
+<div 
+    id="dropped_block"
+    hx-post="/drop_block/{{rowcount}}/{{colcount}}"
+    hx-trigger="every 1s">
 </div>
 
 {% endblock %}

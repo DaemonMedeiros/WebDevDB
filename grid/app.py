@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, request
+from flask import Flask, render_template, session, request, make_response
 
 import random
 
@@ -9,12 +9,50 @@ app.secret_key = "theMostSecretOfKeys"
 @app.get("/showgrid")
 def display_the_grid():
     session["count"] = 0
+    session["active_cell"] = {}
+    session["block_dropping"] = False
     return render_template(
         "grid.html",
         rowcount=8,
         colcount=6,
         colour="white",
     )
+
+@app.post("/drop_block/<rowcount>/<colcount>")
+def drop_block(rowcount, colcount):
+
+    if not session["block_dropping"]:
+
+        newRow = 0
+        newCol = random.randint(0, int(colcount) - 1)
+        session["active_cell"] = {"row": newRow, "col": newCol}
+        session["block_dropping"] = True
+
+        return color_cell(newRow, newCol)
+
+    else:
+
+        currentRow = session["active_cell"]["row"]
+        currentCol = session["active_cell"]["col"]
+
+        if currentRow < int(rowcount) - 1:
+            nextRow = currentRow + 1
+            session["active_cell"] = {"row": nextRow, "col": currentCol}
+            return color_cell(nextRow, currentCol)
+
+        session["block_dropping"] = False
+        return ""
+
+def color_cell(row, col):
+    response = make_response(render_template(
+        "snippet.html",
+        row=row,
+        col=col,
+        colour="black",
+    ))
+    response.headers["HX-Retarget"] = f"#cell-{row}-{col}"
+    response.headers["HX-Reswap"] = "outerHTML"
+    return response
 
 
 @app.post("/location/<row>/<col>/<colour>")
@@ -26,25 +64,6 @@ def process_the_click(row, col, colour):
         col=col,
         colour=set_colour,
     )
-
-@app.get("/spawn_block/<int:rowcount>/<int:colcount>")
-def spawn_random_block(rowcount, colcount):
-    # random_row = random.randint(0, rowcount - 1)
-    random_row = 0
-    random_col = random.randint(0, colcount - 1)
-
-    html = render_template(
-        "snippet.html",
-        row=random_row,
-        col=random_col,
-        colour="black",
-    )
-
-    return html, {
-        "HX-Retarget": f"[id='{random_col}, {random_row}']",
-        "HX-Reswap": "outerHTML",
-    }
-
 
 @app.post("/counting")
 def maintain_count():
