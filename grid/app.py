@@ -1,9 +1,9 @@
-from flask import Flask, render_template, session, request, make_response
-
+from flask import Flask, render_template, session, request
 import random
 
 app = Flask(__name__)
 app.secret_key = "theMostSecretOfKeys"
+
 
 @app.get("/")
 @app.get("/showgrid")
@@ -14,7 +14,7 @@ def display_the_grid():
         "COLS": 6,
         "block_dropping": False,
         "active": {},
-        "seconds": 0,
+        "count": 0,
     }
 
     return render_template(
@@ -23,7 +23,6 @@ def display_the_grid():
         colcount=session["game"]["COLS"],
         colour="white",
     )
-
 
 @app.post("/drop_block")
 def drop_block():
@@ -49,8 +48,6 @@ def drop_block():
     session.modified = True
     return ""
 
-
-# AI Helped me with the color_cell function
 def color_cell(row, col, colour):
     return render_template(
         "snippet.html",
@@ -72,16 +69,13 @@ def process_the_click(row, col, colour):
 
 @app.post("/counting")
 def maintain_count():
-    session["game"]["seconds"] += 1
-    session.modified = True
-    return "Time is ticking: " + str(session["game"]["seconds"])
-
+    session["game"]["count"] = session["game"]["count"] + 1
+    return "Time is ticking: " + str(session["game"]["count"])
 
 @app.post("/keypress")
 def which_key_pressed():
     key_pressed = request.form["keyPressed"]
     return f"You pressed: {key_pressed}."
-
 
 
 if __name__ == "__main__":
