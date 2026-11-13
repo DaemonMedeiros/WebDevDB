@@ -1,6 +1,7 @@
 <div
     id="cell-{{row}}-{{col}}"
     class="{{colour}}box"
+    {% if oob %}hx-swap-oob="true"{% endif %}
     hx-post="/location/{{row}}/{{col}}/{{colour}}"
     hx-target="this"
     hx-swap="outerHTML">

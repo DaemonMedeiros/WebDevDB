@@ -37,10 +37,11 @@
 
 </div>
 
-<div 
+<div
     id="dropped_block"
     hx-post="/drop_block/{{rowcount}}/{{colcount}}"
-    hx-trigger="every 1s">
+    hx-trigger="every 1s"
+    hx-swap="none">
 </div>
 
 {% endblock %}

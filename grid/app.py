@@ -28,7 +28,7 @@ def drop_block(rowcount, colcount):
         session["active_cell"] = {"row": newRow, "col": newCol}
         session["block_dropping"] = True
 
-        return color_cell(newRow, newCol)
+        return color_cell(newRow, newCol, "black")
 
     else:
 
@@ -38,21 +38,20 @@ def drop_block(rowcount, colcount):
         if currentRow < int(rowcount) - 1:
             nextRow = currentRow + 1
             session["active_cell"] = {"row": nextRow, "col": currentCol}
-            return color_cell(nextRow, currentCol)
+            return color_cell(currentRow, currentCol, "white") + color_cell(nextRow, currentCol, "black")
 
         session["block_dropping"] = False
         return ""
 
-def color_cell(row, col):
-    response = make_response(render_template(
+# AI Helped me with the color_cell function
+def color_cell(row, col, colour):
+    return render_template(
         "snippet.html",
         row=row,
         col=col,
-        colour="black",
-    ))
-    response.headers["HX-Retarget"] = f"#cell-{row}-{col}"
-    response.headers["HX-Reswap"] = "outerHTML"
-    return response
+        colour=colour,
+        oob=True,
+    )
 
 
 @app.post("/location/<row>/<col>/<colour>")
