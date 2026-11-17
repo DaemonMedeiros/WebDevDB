@@ -1,6 +1,14 @@
 * Command Prompt MariaDB login as user
 * MySQL Client MariaDB login as root user (use this to create a separate user)
 
+gamesuser
+gamespassword
+
+Scripts\activate
+mcli -u gamesuser
+gamespassword
+use gamesDB;
+
 show databases; 			* Display existing databases
 create database <database name>; 	* Create a new database
 
@@ -63,3 +71,10 @@ update <table name>
 	-> set <data name> = <value>
 	-> where <data name> = <value>;
 
+* Log out
+quit
+
+* Pulling correlated info from separate tables
+select players.name, players.handle, scores.score from players,
+                                  -> scores where players.id = scores.player_id order by scores.score
+                                  ->  desc
