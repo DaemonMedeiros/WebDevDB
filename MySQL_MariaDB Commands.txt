@@ -1,0 +1,65 @@
+* Command Prompt MariaDB login as user
+* MySQL Client MariaDB login as root user (use this to create a separate user)
+
+show databases; 			* Display existing databases
+create database <database name>; 	* Create a new database
+
+* Create a user and password with access to everything in a specific database on the current machine
+grant all on <database name>.* to '<user name>'@'localhost' identified by '<password>';
+
+* Log in to a database as a user with a password
+mysql -u <user name> -p <database name>
+
+* Table examples schema (database table names and structures)
+DB      Name        Type           Size
+--	----	    ----	   ----
+scores:
+	player_id - integer
+	score	  - integer
+
+players:
+	id     	  - integer auto-increment primary key (index)
+	name   	  - varchar - 32 (varchar is short for variable characters)
+        handle 	  - alphanumeric - 16
+
+* Create a new table and specify data using schema above for as example
+create table <table name> ( <press enter to begin>
+	-> id integer auto_increment primary key,
+	-> name varchar(32) not null,
+	-> handle varchar(16) not null );
+
+* List all available tables
+show tables;
+
+* List available tables and their current contents
+describe <table name>;
+
+* Create data (insert)
+insert into <table name> <press enter>
+	-> (name, handle)
+	-> values
+	-> ("Paul", "The Boss");
+
+* Read data (select) retrieve all the data in a table and display it
+select * from <table name>;
+
+* Read data (select) specify how many rows to retrieve
+select * from <table name> limit <number>;
+
+* Read specific data in particular order
+select * from <table name>
+	-> order by id desc (ascending or descending order)
+	-> limit 2 (how many lines to order);
+
+* Filter results from particular point
+select * from <table name>
+	-> where <data name> = <value>;
+
+* Filter results from part of a name
+select * from <table name> where name like 'Dae%';
+
+* Update a row
+update <table name>
+	-> set <data name> = <value>
+	-> where <data name> = <value>;
+
