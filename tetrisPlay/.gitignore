@@ -1,0 +1,113 @@
+# ---------------------------------------------------------------
+# Virtual environments (uv venv creates .venv by default)
+# ---------------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+
+# ---------------------------------------------------------------
+# Python bytecode and caches
+# ---------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pytype/
+.pyre/
+.cache/
+
+# ---------------------------------------------------------------
+# Packaging / build artifacts
+# ---------------------------------------------------------------
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+wheels/
+pip-wheel-metadata/
+.installed.cfg
+
+# ---------------------------------------------------------------
+# Jupyter / JupyterLab
+# ---------------------------------------------------------------
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+.jupyter/
+.virtual_documents/
+# Optional: uncomment to stop tracking executed output noise in notebooks
+# (better handled with nbstripout if you want to keep notebooks tracked)
+# *.ipynb
+
+# IPython
+profile_default/
+ipython_config.py
+
+# ---------------------------------------------------------------
+# Testing / coverage
+# ---------------------------------------------------------------
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+
+# ---------------------------------------------------------------
+# Environment variables and secrets
+# ---------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ---------------------------------------------------------------
+# Data and model artifacts (adjust to your project)
+# ---------------------------------------------------------------
+data/raw/
+data/processed/
+*.csv
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.joblib
+*.npy
+*.npz
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.safetensors
+
+# ---------------------------------------------------------------
+# Logs and temp files
+# ---------------------------------------------------------------
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+
+# ---------------------------------------------------------------
+# Editors / IDEs
+# ---------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ---------------------------------------------------------------
+# OS files
+# ---------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
