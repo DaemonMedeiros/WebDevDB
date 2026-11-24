@@ -81,6 +81,8 @@ def drop_block():
     session.modified = True
     return ""
 
+# ai helped with syntax and color_cell function
+
 def color_cell(row, col, colour):
     return render_template(
         "snippet.html",
@@ -104,6 +106,7 @@ def process_the_click(row, col, colour):
 def maintain_count():
     session["game"]["count"] = session["game"]["count"] + 1
     return "Time is ticking: " + str(session["game"]["count"])
+    
 
 @app.post("/keypress")
 def which_key_pressed():
