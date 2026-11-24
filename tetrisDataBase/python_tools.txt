@@ -1,0 +1,10 @@
+External Download
+-----------------
+Maria DB
+SQL Alchemy
+pypi.org
+
+uv pip install
+--------------
+mycli
+DBcm

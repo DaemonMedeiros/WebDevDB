@@ -4,8 +4,11 @@
 gamesuser
 gamespassword
 
+nationuser
+nationpasswd
+
 Scripts\activate
-mcli -u gamesuser
+mycli -u gamesuser
 gamespassword
 use gamesDB;
 
@@ -64,7 +67,7 @@ select * from <table name>
 	-> where <data name> = <value>;
 
 * Filter results from part of a name
-select * from <table name> where name like 'Dae%';
+select * from <table name> where <data name> like '<characters>%';
 
 * Update a row
 update <table name>
@@ -78,3 +81,31 @@ quit
 select players.name, players.handle, scores.score from players,
                                   -> scores where players.id = scores.player_id order by scores.score
                                   ->  desc
+
+* Import data into a table from an external sql file
+source <filename>.sql --special;
+
+* Count the elements in a table
+select count(*) from <table name>;
+
+* Filter, compare, set shorthand
+select c.name, r.name
+      -> from countries as c, regions as r
+      -> where c.region_id = r.region_id
+      -> and r.name = "British Islands";
+
+* Pull name and language from various tables using country and language id's
+select c.name, l.language, cl.official
+        -> from countries as c, languages as l, country_languages as cl
+        -> where c.country_id = cl.country_id
+        -> and cl.language_id = l.language_id
+        -> and c.name = "India";
+
+* Find partial text at beginning
+"%<characters>"
+
+* Find partial text at end
+"<characters>%"
+
+* Find partial text in the string
+"%<characters>%"

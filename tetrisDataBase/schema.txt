@@ -1,0 +1,23 @@
+
+
+scores:
+    player_id   - integer - links to the 'id' field in the players table
+    score       - integer
+
+
+
+
+
+players:
+    id          - integer auto-increment primary key (index)
+    name        - alphanumeric - 32
+    handle      - alphanumeric - 16
+
+
+
+
+
+
+
+
+
